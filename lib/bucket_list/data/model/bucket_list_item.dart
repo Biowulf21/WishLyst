@@ -1,6 +1,6 @@
 import 'package:equatable/equatable.dart';
 
-class WishListItem extends Equatable {
+class BucketListItem extends Equatable {
   int id;
   String itemName;
   bool? isComplete = false;
@@ -10,7 +10,7 @@ class WishListItem extends Equatable {
   DateTime? dateCompleted;
   DateTime? dateUpdated;
 
-  WishListItem(
+  BucketListItem(
       {required this.id,
       required this.itemName,
       required this.description,
@@ -32,8 +32,8 @@ class WishListItem extends Equatable {
         dateUpdated
       ];
 
-  factory WishListItem.fromJson(Map<String, dynamic> json) {
-    return WishListItem(
+  factory BucketListItem.fromJson(Map<String, dynamic> json) {
+    return BucketListItem(
       id: json['id'] as int,
       itemName: json['itemName'] as String,
       description: json['description'] as String,
