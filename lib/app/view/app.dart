@@ -1,5 +1,5 @@
 import 'package:flutter/material.dart';
-import 'package:wishlyst/counter/counter.dart';
+import 'package:wishlyst/bucket_list/view/bucket_list_page.dart';
 import 'package:wishlyst/l10n/l10n.dart';
 
 class App extends StatelessWidget {
@@ -16,7 +16,7 @@ class App extends StatelessWidget {
       ),
       localizationsDelegates: AppLocalizations.localizationsDelegates,
       supportedLocales: AppLocalizations.supportedLocales,
-      home: const CounterPage(),
+      home: const BucketListPage(),
     );
   }
 }
