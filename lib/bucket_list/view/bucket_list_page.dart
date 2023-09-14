@@ -17,37 +17,41 @@ class BucketListPage extends StatelessWidget {
 }
 
 class BucketListView extends StatelessWidget {
-  BucketListView({super.key});
-  final bloc = BucketListBloc();
+  BucketListView({Key? key}) : super(key: key);
 
   @override
   Widget build(BuildContext context) {
+    final bloc = BlocProvider.of<BucketListBloc>(context);
+
     return Scaffold(
       appBar: AppBar(),
       body: BlocBuilder<BucketListBloc, BucketListState>(
-          builder: (context, state) {
-        if (state is BucketListUpdatedState && state.items.isEmpty) {
-          return const Center(
-            child: Text('Add something to your bucketlist!'),
-          );
-        } else if (state is BucketListLoadingState) {
-          return const Center(
-            child: CircularProgressIndicator(),
-          );
-        } else if (state is BucketListUpdatedState) {
-          return ListView.builder(
-            itemCount: state.items.length,
-            itemBuilder: (context, index) {
-              final item = state.items[index];
-              return BucketListItemWidget();
-            },
-          );
-        } else {
-          return const Center(
-            child: Text('Add something to your bucket list!'),
-          );
-        }
-      }),
+        builder: (context, state) {
+          if (state is BucketListUpdatedState && state.items.isEmpty) {
+            return const Center(
+              child: Text('Add something to your bucketlist!'),
+            );
+          } else if (state is BucketListLoadingState) {
+            print('loading');
+            return const Center(
+              child: CircularProgressIndicator(),
+            );
+          } else if (state is BucketListUpdatedState) {
+            return ListView.builder(
+              itemCount: state.items.length,
+              itemBuilder: (context, index) {
+                print('item count is ${state.items.length}');
+                final item = state.items[index];
+                return BucketListItemWidget();
+              },
+            );
+          } else {
+            return const Center(
+              child: Text('Add something to your bucket list!'),
+            );
+          }
+        },
+      ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
@@ -58,6 +62,7 @@ class BucketListView extends StatelessWidget {
             dateCreated: DateTime.now(),
           );
 
+          // Use the bloc obtained from the context to dispatch the event
           bloc.add(AddBucketListItemEvent(bucketListItem));
         },
       ),
