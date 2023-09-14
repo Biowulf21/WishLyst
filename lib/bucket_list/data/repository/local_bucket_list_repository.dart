@@ -1,6 +1,10 @@
+import 'package:wishlyst/app/database/local_db_singleton.dart';
 import 'package:wishlyst/bucket_list/bucket_list.dart';
 
 class LocalDBBucketListRepository implements BucketListRepository {
+  LocalDBBucketListRepository(this._dbSingleton);
+  final LocalDatabaseSingleton _dbSingleton;
+
   @override
   Future<void> completeBucketListItem(int id) {
     // TODO: implement completeBucketListItem
@@ -26,9 +30,14 @@ class LocalDBBucketListRepository implements BucketListRepository {
   }
 
   @override
-  Future<void> saveBucketListItem(BucketListItem bucketListItem) {
-    // TODO: implement saveBucketListItem
-    throw UnimplementedError();
+  Future<void> saveBucketListItem(BucketListItem bucketListItem) async {
+    final db = await _dbSingleton.database;
+    try {
+      await db.insert('bucket_list_items', bucketListItem.toJson());
+    } catch (e) {
+      //handle exception
+      
+    }
   }
 
   @override

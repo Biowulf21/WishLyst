@@ -13,5 +13,3 @@ abstract class BucketListRepository {
 
   Future<void> completeBucketListItem(int id);
 }
-
-class BucketListItemNotFound implements Exception {}
