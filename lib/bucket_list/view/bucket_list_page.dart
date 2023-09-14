@@ -27,6 +27,7 @@ class BucketListView extends StatelessWidget {
       appBar: AppBar(),
       body: BlocBuilder<BucketListBloc, BucketListState>(
         builder: (context, state) {
+          //TODO: Clean using pattern matching
           if (state is BucketListUpdatedState && state.items.isEmpty) {
             return const Center(
               child: Text('Add something to your bucketlist!'),
