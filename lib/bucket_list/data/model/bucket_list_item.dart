@@ -61,4 +61,17 @@ class BucketListItem extends Equatable {
         'dateCompleted': dateCompleted?.toIso8601String(),
         'dateUpdated': dateUpdated?.toIso8601String()
       };
+
+  BucketListItem copyWith() {
+    return BucketListItem(
+      id: id,
+      itemName: itemName,
+      description: description,
+      dateCreated: dateCreated,
+      isComplete: isComplete,
+      dateDeleted: dateDeleted,
+      dateCompleted: dateCompleted,
+      dateUpdated: dateUpdated,
+    );
+  }
 }
