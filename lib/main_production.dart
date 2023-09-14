@@ -20,5 +20,9 @@ void main() {
       LocalDBConfig(path: values.localDBPath, dbName: values.localDBName);
   final singleton = LocalDatabaseSingleton(config);
 
-  bootstrap(() => const App());
+  bootstrap(
+    () => App(
+      singleton: singleton,
+    ),
+  );
 }
