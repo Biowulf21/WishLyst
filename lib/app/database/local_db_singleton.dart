@@ -35,19 +35,17 @@ class LocalDatabaseSingleton {
   }
 
   Future<void> _onCreate(Database db, int version) async {
-    _database = await _initDB();
-
-    await _database.execute('''
-       CREATE TABLE IF NOT EXISTS bucket_list_items(
-         id INTEGER PRIMARY KEY AUTOINCREMENT,
-         itemName NOT NULL TEXT,
-         description TEXT,
-         isCompleted NOT NULL INTEGER,
-         dateCreated NOT NULL TEXT,
-         dateDeleted TEXT,
-         dateCompleted TEXT,
-         dateUpdated TEXT
-       )
-      ''');
+    await db.execute('''
+    CREATE TABLE IF NOT EXISTS bucket_list_items (
+      id INTEGER PRIMARY KEY AUTOINCREMENT,
+      itemName TEXT NOT NULL,
+      description TEXT,
+      isCompleted INTEGER NOT NULL,
+      dateCreated TEXT NOT NULL,
+      dateDeleted TEXT,
+      dateCompleted TEXT,
+      dateUpdated TEXT
+    );
+  ''');
   }
 }
