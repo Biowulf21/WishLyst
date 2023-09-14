@@ -1,9 +1,9 @@
 part of 'bucket_list_bloc.dart';
 
 abstract class BucketListState extends Equatable {
-  BucketListState({required this.items, this.errorMessage});
+  const BucketListState({required this.items, this.errorMessage});
 
-  List<BucketListItem> items;
+  final List<BucketListItem> items;
   final String? errorMessage;
 
   @override
@@ -15,7 +15,7 @@ class BucketListInitialState extends BucketListState {
 }
 
 class BucketListLoadingState extends BucketListState {
-  BucketListLoadingState() : super(items:  []);
+  BucketListLoadingState() : super(items: []);
 }
 
 class BucketListUpdatedState extends BucketListState {
@@ -24,5 +24,5 @@ class BucketListUpdatedState extends BucketListState {
 
 class BucketListErrorState extends BucketListState {
   BucketListErrorState({required String message})
-      : super(items:  [], errorMessage: message);
+      : super(items: [], errorMessage: message);
 }
