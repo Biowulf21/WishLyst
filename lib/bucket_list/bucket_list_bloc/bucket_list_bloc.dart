@@ -7,7 +7,7 @@ part 'bucket_list_event.dart';
 part 'bucket_list_state.dart';
 
 class BucketListBloc extends Bloc<BucketListEvent, BucketListState> {
-  BucketListBloc() : super(BucketListInitialState(items: [])) {
+  BucketListBloc() : super(BucketListInitialState(items: const [])) {
     on<AddBucketListItemEvent>(_addBucketListItem);
   }
 
@@ -15,9 +15,8 @@ class BucketListBloc extends Bloc<BucketListEvent, BucketListState> {
     AddBucketListItemEvent event,
     Emitter<BucketListState> emit,
   ) {
-    emit(BucketListLoadingState());
-    print('adding item to bucketlist');
-    state.items.add(event.bucketListItem);
-    emit(BucketListUpdatedState(items: state.items));
+    final updatedItems = List<BucketListItem>.from(state.items)
+      ..add(event.bucketListItem);
+    emit(BucketListUpdatedState(items: updatedItems));
   }
 }
