@@ -47,7 +47,10 @@ class BucketListView extends StatelessWidget {
               itemCount: state.items.length,
               itemBuilder: (context, index) {
                 final item = state.items[index];
-                return BucketListItemWidget(item: item);
+                return BucketListItemWidget(
+                  item: item,
+                  index: index,
+                );
               },
             );
           }
