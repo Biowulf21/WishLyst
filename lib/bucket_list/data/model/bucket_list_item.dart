@@ -2,10 +2,10 @@ import 'package:equatable/equatable.dart';
 
 class BucketListItem extends Equatable {
   BucketListItem({
-    this.id,
     required this.itemName,
     required this.description,
     required this.dateCreated,
+    this.id,
     this.isComplete = false,
     this.dateDeleted,
     this.dateCompleted,
@@ -56,19 +56,19 @@ class BucketListItem extends Equatable {
         'itemName': itemName,
         'description': description,
         'dateCreated': dateCreated.toIso8601String(),
-        'isComplete': isComplete == true ? 1 : 0,
+        'isComplete': isComplete ?? false ? 1 : 0,
         'dateDeleted': dateDeleted?.toIso8601String(),
         'dateCompleted': dateCompleted?.toIso8601String(),
         'dateUpdated': dateUpdated?.toIso8601String()
       };
 
-  BucketListItem copyWith() {
+  BucketListItem copyWith({bool? isCompleteValue}) {
     return BucketListItem(
       id: id,
       itemName: itemName,
       description: description,
       dateCreated: dateCreated,
-      isComplete: isComplete,
+      isComplete: isCompleteValue ?? isComplete,
       dateDeleted: dateDeleted,
       dateCompleted: dateCompleted,
       dateUpdated: dateUpdated,

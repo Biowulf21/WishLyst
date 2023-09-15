@@ -24,10 +24,12 @@ class BucketListItemWidget extends StatelessWidget {
   ) async {
     print(newValue);
     final bloc = BlocProvider.of<BucketListBloc>(context);
-    final updatedValue = !newValue;
+    final updatedItem = item.copyWith(isCompleteValue: newValue);
 
     bloc.add(
-      SetCompletedBucketListItemEvent(id: item.id!, isComplete: updatedValue),
+      SetCompletedBucketListItemEvent(
+        bucketListItem: updatedItem,
+      ),
     );
   }
 
@@ -61,8 +63,9 @@ class BucketListItemWidget extends StatelessWidget {
         subtitle: Text(item.description),
         trailing: Checkbox(
           value: item.isComplete,
-          onChanged: (bool? newValue) =>
-              _markBucketListItemComplete(context, newValue!),
+          onChanged: (bool? newValue) {
+            _markBucketListItemComplete(context, newValue!);
+          },
         ),
       ),
     );

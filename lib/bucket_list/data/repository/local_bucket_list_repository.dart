@@ -51,17 +51,16 @@ class LocalDBBucketListRepository implements BucketListRepository {
   }
 
   Future<void> setCompletedBucketListItem({
-    required int id,
-    bool? isComplete = false,
+    required BucketListItem item,
   }) async {
-    int isCompleteNum = isComplete == true ? 1 : 0;
+    final bucketListItem = item;
 
     final db = await _dbSingleton.database;
     await db.update(
       'bucket_list_items',
-      {'isComplete': isCompleteNum},
+      bucketListItem.toJson(),
       where: 'id = ?',
-      whereArgs: [id],
+      whereArgs: [bucketListItem.id],
     );
   }
 

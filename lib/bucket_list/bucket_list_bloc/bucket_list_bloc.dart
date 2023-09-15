@@ -44,7 +44,9 @@ class BucketListBloc extends Bloc<BucketListEvent, BucketListState> {
   }
 
   Future<void> _deleteBucketListItem(
-      DeleteBucketListItemEvent event, Emitter<BucketListState> emit) async {
+    DeleteBucketListItemEvent event,
+    Emitter<BucketListState> emit,
+  ) async {
     await _repository.deleteBucketListItem(event.id);
     final updatedItems =
         state.items.where((item) => item.id != event.id).toList();
@@ -56,13 +58,19 @@ class BucketListBloc extends Bloc<BucketListEvent, BucketListState> {
     SetCompletedBucketListItemEvent event,
     Emitter<BucketListState> emit,
   ) async {
-    await _repository.setCompletedBucketListItem(
-      id: event.id,
-      isComplete: event.isComplete,
-    );
+    final updatedBucketListItem =
+        event.bucketListItem.copyWith(isCompleteValue: event.bucketListItem.isComplete);
 
-    final List<BucketListItem> items = await _repository.getBucketListItems();
+    await _repository.setCompletedBucketListItem(item: updatedBucketListItem);
 
-    emit(BucketListUpdatedState(items: items));
+    final updatedItems = state.items.map((item) {
+      if (item.id == updatedBucketListItem.id) {
+        return updatedBucketListItem;
+      } else {
+        return item;
+      }
+    }).toList();
+
+    emit(BucketListUpdatedState(items: updatedItems));
   }
 }

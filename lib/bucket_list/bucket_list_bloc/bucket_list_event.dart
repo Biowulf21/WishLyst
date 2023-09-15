@@ -35,10 +35,8 @@ class UpdateBucketListItemEvent extends BucketListEvent {
 
 class SetCompletedBucketListItemEvent extends BucketListEvent {
   const SetCompletedBucketListItemEvent({
-    required this.id,
-    this.isComplete = true,
+    required this.bucketListItem,
   });
 
-  final bool isComplete;
-  final int id;
+  final BucketListItem bucketListItem;
 }
