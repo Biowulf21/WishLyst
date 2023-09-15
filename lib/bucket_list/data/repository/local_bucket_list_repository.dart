@@ -49,6 +49,16 @@ class LocalDBBucketListRepository implements BucketListRepository {
     }
   }
 
+  Future<void> setCompletedBucketListItem(int id) async {
+    final db = await _dbSingleton.database;
+    await db.update(
+      'bucket_list_items',
+      {'isComplete': 1},
+      where: 'id = ?',
+      whereArgs: [id],
+    );
+  }
+
   @override
   Future<void> updateBucketListItem(BucketListItem bucketListItem) {
     // TODO: implement updateBucketListItem
