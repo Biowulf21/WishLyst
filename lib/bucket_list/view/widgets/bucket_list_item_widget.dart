@@ -5,19 +5,30 @@ import 'package:wishlyst/bucket_list/bucket_list_bloc/bucket_list_bloc.dart';
 import 'package:wishlyst/bucket_list/data/model/bucket_list_item.dart';
 
 class BucketListItemWidget extends StatelessWidget {
-  const BucketListItemWidget(
-      {required this.item, required this.index, super.key});
+  const BucketListItemWidget({
+    required this.item,
+    required this.index,
+    super.key,
+  });
   final BucketListItem item;
   final int index;
 
-  void _deleteBucketListItem(BuildContext context) async {
+  Future<void> _deleteBucketListItem(BuildContext context) async {
     final bloc = BlocProvider.of<BucketListBloc>(context)
       ..add(DeleteBucketListItemEvent(item.id!));
   }
 
-  void _markBucketListItemComplete(BuildContext context) async {
-    final bloc = BlocProvider.of<BucketListBloc>(context)
-      ..add(SetCompletedBucketListItemEvent(item.id!));
+  Future<void> _markBucketListItemComplete(
+    BuildContext context,
+    bool newValue,
+  ) async {
+    print(newValue);
+    final bloc = BlocProvider.of<BucketListBloc>(context);
+    final updatedValue = !newValue;
+
+    bloc.add(
+      SetCompletedBucketListItemEvent(id: item.id!, isComplete: updatedValue),
+    );
   }
 
   @override
@@ -36,7 +47,8 @@ class BucketListItemWidget extends StatelessWidget {
             label: 'Delete',
           ),
           SlidableAction(
-            onPressed: _markBucketListItemComplete,
+            onPressed: (BuildContext context) =>
+                _markBucketListItemComplete(context, true),
             backgroundColor: const Color(0xFF21B7CA),
             foregroundColor: Colors.white,
             icon: Icons.check,
@@ -47,6 +59,11 @@ class BucketListItemWidget extends StatelessWidget {
       child: ListTile(
         title: Text(item.itemName),
         subtitle: Text(item.description),
+        trailing: Checkbox(
+          value: item.isComplete,
+          onChanged: (bool? newValue) =>
+              _markBucketListItemComplete(context, newValue!),
+        ),
       ),
     );
   }

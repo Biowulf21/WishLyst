@@ -53,8 +53,16 @@ class BucketListBloc extends Bloc<BucketListEvent, BucketListState> {
   }
 
   Future<void> _setCompletedBucketListItem(
-      SetCompletedBucketListItemEvent event,
-      Emitter<BucketListState> emit) async {
-    await _repository.setCompletedBucketListItem(event.id);
+    SetCompletedBucketListItemEvent event,
+    Emitter<BucketListState> emit,
+  ) async {
+    await _repository.setCompletedBucketListItem(
+      id: event.id,
+      isComplete: event.isComplete,
+    );
+
+    final List<BucketListItem> items = await _repository.getBucketListItems();
+
+    emit(BucketListUpdatedState(items: items));
   }
 }
