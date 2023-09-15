@@ -11,7 +11,9 @@ class LocalDatabaseSingleton {
       LocalDatabaseSingleton._internal();
 
   late LocalDBConfig _config;
-  late Database _database;
+  late Database? _database;
+
+  bool _isInitialized = false;
 
   factory LocalDatabaseSingleton(LocalDBConfig config) {
     _singleton._config = config;
@@ -20,18 +22,22 @@ class LocalDatabaseSingleton {
   }
 
   Future<Database> get database async {
-    if (_database != null) {
-      return database;
+    if (!_isInitialized) {
+      await _initDB();
     }
 
-    _database = await _initDB();
-    return database;
+    return _database!;
   }
 
-  Future<Database> _initDB() async {
+  Future<void> _initDB() async {
+    if (_isInitialized) {
+      return;
+    }
+
     final String databasesPath = await getDatabasesPath();
     final String path = join(_config.path, _config.dbName);
-    return await openDatabase(path, version: 1, onCreate: _onCreate);
+    _database = await openDatabase(path, version: 1, onCreate: _onCreate);
+    _isInitialized = true;
   }
 
   Future<void> _onCreate(Database db, int version) async {
@@ -40,7 +46,7 @@ class LocalDatabaseSingleton {
       id INTEGER PRIMARY KEY AUTOINCREMENT,
       itemName TEXT NOT NULL,
       description TEXT,
-      isCompleted INTEGER NOT NULL,
+      isComplete INTEGER NOT NULL,
       dateCreated TEXT NOT NULL,
       dateDeleted TEXT,
       dateCompleted TEXT,
