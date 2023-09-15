@@ -1,6 +1,7 @@
 import 'package:flutter/material.dart';
 import 'package:wishlyst/bucket_list/bucket_list_bloc/bucket_list_bloc.dart';
 import 'package:wishlyst/bucket_list/data/model/bucket_list_item.dart';
+import 'dart:math';
 
 class NewBucketListItemModal extends StatefulWidget {
   NewBucketListItemModal({
@@ -21,6 +22,13 @@ class NewBucketListItemModal extends StatefulWidget {
 }
 
 class _NewBucketListItemModalState extends State<NewBucketListItemModal> {
+  //TODO: implement in a utils class
+  int generateUniqueId() {
+    final timestamp = DateTime.now().millisecondsSinceEpoch;
+    final random = Random().nextInt(999999);
+    return timestamp + random;
+  }
+
   @override
   Widget build(BuildContext context) {
     return Padding(
@@ -73,6 +81,7 @@ class _NewBucketListItemModalState extends State<NewBucketListItemModal> {
 
                     if (isFormValid) {
                       final bucketListItem = BucketListItem(
+                        id: generateUniqueId(),
                         itemName: widget.titleController.value.text,
                         description: widget.descriptionController.value.text,
                         dateCreated: DateTime.now(),
