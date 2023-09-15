@@ -50,7 +50,7 @@ class BucketListItem extends Equatable {
         'itemName': itemName,
         'description': description,
         'dateCreated': dateCreated.toIso8601String(),
-        'isComplete': isComplete,
+        'isComplete': isComplete == true ? 1 : 0,
         'dateDeleted': dateDeleted?.toIso8601String(),
         'dateCompleted': dateCompleted?.toIso8601String(),
         'dateUpdated': dateUpdated?.toIso8601String()
