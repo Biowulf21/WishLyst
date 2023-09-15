@@ -20,6 +20,7 @@ class BucketListBloc extends Bloc<BucketListEvent, BucketListState> {
     GetBucketListItemsEvent event,
     Emitter<BucketListState> emit,
   ) async {
+    //TODO implement caching properly
     emit(BucketListLoadingState());
     final bucketListItems = await _repository.getBucketListItems();
     emit(BucketListUpdatedState(items: bucketListItems));
@@ -31,10 +32,9 @@ class BucketListBloc extends Bloc<BucketListEvent, BucketListState> {
   ) async {
     await _repository.saveBucketListItem(event.bucketListItem);
     final result = await _repository.getBucketListItems();
-    print(result);
 
     final updatedItems = List<BucketListItem>.from(state.items)
-      ..add(event.bucketListItem);
+      ..insert(0, event.bucketListItem);
 
     emit(BucketListUpdatedState(items: updatedItems));
   }
