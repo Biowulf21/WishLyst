@@ -2,7 +2,8 @@ import 'package:equatable/equatable.dart';
 
 class BucketListItem extends Equatable {
   BucketListItem(
-      {required this.itemName,
+      {this.id,
+      required this.itemName,
       required this.description,
       required this.dateCreated,
       this.isComplete = false,
@@ -12,6 +13,7 @@ class BucketListItem extends Equatable {
 
   factory BucketListItem.fromJson(Map<String, dynamic> json) {
     return BucketListItem(
+      id: json['id'] as int?,
       itemName: json['itemName'] as String,
       description: json['description'] as String,
       dateCreated: DateTime.parse(json['dateCreated'] as String),
@@ -27,6 +29,7 @@ class BucketListItem extends Equatable {
           : null,
     );
   }
+  int? id;
   String itemName;
   bool? isComplete;
   String description;
@@ -37,6 +40,7 @@ class BucketListItem extends Equatable {
 
   @override
   List<Object?> get props => [
+        id,
         itemName,
         description,
         dateCreated,
@@ -47,6 +51,7 @@ class BucketListItem extends Equatable {
       ];
 
   Map<String, dynamic> toJson() => {
+        'id': id,
         'itemName': itemName,
         'description': description,
         'dateCreated': dateCreated.toIso8601String(),
@@ -58,6 +63,7 @@ class BucketListItem extends Equatable {
 
   BucketListItem copyWith() {
     return BucketListItem(
+      id: id,
       itemName: itemName,
       description: description,
       dateCreated: dateCreated,
@@ -67,4 +73,14 @@ class BucketListItem extends Equatable {
       dateUpdated: dateUpdated,
     );
   }
+
+  Map<String, dynamic> values(DateTime dateUpdated) => {
+        'itemName': itemName,
+        'description': description,
+        'dateCreated': dateCreated.toIso8601String(),
+        'isComplete': isComplete == true ? 1 : 0,
+        'dateDeleted': dateDeleted?.toIso8601String(),
+        'dateCompleted': dateCompleted?.toIso8601String(),
+        'dateUpdated': dateUpdated.toIso8601String(),
+      };
 }
