@@ -10,6 +10,8 @@ sealed class BucketListEvent extends Equatable {
 
 class BucketListInitialEvent extends BucketListEvent {}
 
+class GetBucketListItemsEvent extends BucketListEvent {}
+
 class AddBucketListItemEvent extends BucketListEvent {
   const AddBucketListItemEvent(this.bucketListItem);
   final BucketListItem bucketListItem;
