@@ -1,7 +1,9 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
+import 'package:wishlyst/bucket_list/bucket_list.dart';
 import 'package:wishlyst/bucket_list/bucket_list_bloc/bucket_list_bloc.dart';
 import 'package:wishlyst/bucket_list/data/model/bucket_list_item.dart';
+import 'package:wishlyst/bucket_list/data/repository/local_bucket_list_repository.dart';
 import 'package:wishlyst/bucket_list/view/widgets/bucket_list_item_widget.dart';
 
 class BucketListPage extends StatelessWidget {
@@ -9,15 +11,17 @@ class BucketListPage extends StatelessWidget {
 
   @override
   Widget build(BuildContext context) {
+    final repository =
+        RepositoryProvider.of<LocalDBBucketListRepository>(context);
     return BlocProvider(
-      create: (_) => BucketListBloc(),
-      child: BucketListView(),
+      create: (_) => BucketListBloc(repository),
+      child: const BucketListView(),
     );
   }
 }
 
 class BucketListView extends StatelessWidget {
-  BucketListView({Key? key}) : super(key: key);
+  const BucketListView({super.key});
 
   @override
   Widget build(BuildContext context) {
@@ -27,8 +31,9 @@ class BucketListView extends StatelessWidget {
       appBar: AppBar(),
       body: BlocBuilder<BucketListBloc, BucketListState>(
         builder: (context, state) {
-          //TODO: Clean using pattern matching
-          if (state is BucketListUpdatedState && state.items.isEmpty) {
+          if (state is BucketListInitialState) {
+            bloc.add(GetBucketListItemsEvent());
+          } else if (state is BucketListUpdatedState && state.items.isEmpty) {
             return const Center(
               child: Text('Add something to your bucketlist!'),
             );
@@ -43,27 +48,24 @@ class BucketListView extends StatelessWidget {
               itemBuilder: (context, index) {
                 print('item count is ${state.items.length}');
                 final item = state.items[index];
-                return BucketListItemWidget();
+                return const BucketListItemWidget();
               },
             );
-          } else {
-            return const Center(
-              child: Text('Add something to your bucket list!'),
-            );
           }
+          return const Center(
+            child: Text('Add something to your bucket list!'),
+          );
         },
       ),
       floatingActionButton: FloatingActionButton(
         child: const Icon(Icons.add),
         onPressed: () {
           final bucketListItem = BucketListItem(
-            id: 1,
             itemName: 'test',
             description: 'desc',
             dateCreated: DateTime.now(),
           );
 
-          // Use the bloc obtained from the context to dispatch the event
           bloc.add(AddBucketListItemEvent(bucketListItem));
         },
       ),
