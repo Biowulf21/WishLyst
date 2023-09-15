@@ -1,8 +1,10 @@
 import 'package:flutter/material.dart';
 import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wishlyst/bucket_list/bucket_list_bloc/bucket_list_bloc.dart';
+import 'package:wishlyst/bucket_list/data/model/bucket_list_item.dart';
 import 'package:wishlyst/bucket_list/data/repository/local_bucket_list_repository.dart';
 import 'package:wishlyst/bucket_list/view/widgets/bucket_list_item_widget.dart';
+import 'package:wishlyst/bucket_list/view/widgets/new_bucket_list_item_modal.dart';
 
 class BucketListPage extends StatelessWidget {
   const BucketListPage({super.key});
@@ -45,7 +47,7 @@ class BucketListView extends StatelessWidget {
               itemCount: state.items.length,
               itemBuilder: (context, index) {
                 final item = state.items[index];
-                return const BucketListItemWidget();
+                return BucketListItemWidget(item: item);
               },
             );
           }
@@ -63,41 +65,20 @@ class BucketListView extends StatelessWidget {
 }
 
 void _showNewBucketListItemModal(BuildContext context) {
+  final titleController = TextEditingController();
+  final descriptionController = TextEditingController();
+  final formKey = GlobalKey<FormState>();
+  final bloc = BlocProvider.of<BucketListBloc>(context);
+
   showModalBottomSheet(
+    isScrollControlled: true,
     context: context,
     builder: (BuildContext context) {
-      return Container(
-        height: MediaQuery.of(context).size.height / 2,
-        padding: const EdgeInsets.all(16),
-        child: Column(
-          crossAxisAlignment: CrossAxisAlignment.stretch,
-          children: <Widget>[
-            const Text(
-              'Add New Bucket List Item',
-              style: TextStyle(
-                fontSize: 20,
-                fontWeight: FontWeight.bold,
-              ),
-            ),
-            const SizedBox(height: 10),
-            TextFormField(
-              decoration: const InputDecoration(labelText: 'Item Name'),
-            ),
-            const SizedBox(height: 10),
-            TextFormField(
-              decoration: const InputDecoration(labelText: 'Description'),
-              maxLines: 3,
-            ),
-            const SizedBox(height: 20),
-            ElevatedButton(
-              onPressed: () {
-                Navigator.of(context).pop();
-              },
-              child: const Text('Add Item'),
-            ),
-          ],
-        ),
-      );
+      return NewBucketListItemModal(
+          bloc: bloc,
+          titleController: titleController,
+          descriptionController: descriptionController,
+          key: formKey);
     },
   );
 }
