@@ -11,7 +11,7 @@ abstract class BucketListState extends Equatable {
 }
 
 class BucketListInitialState extends BucketListState {
-  BucketListInitialState({required super.items});
+  BucketListInitialState() : super(items: []);
 }
 
 class BucketListLoadingState extends BucketListState {
@@ -19,7 +19,7 @@ class BucketListLoadingState extends BucketListState {
 }
 
 class BucketListUpdatedState extends BucketListState {
-  BucketListUpdatedState({required super.items});
+  const BucketListUpdatedState({required super.items});
 }
 
 class BucketListErrorState extends BucketListState {
