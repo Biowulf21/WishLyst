@@ -7,11 +7,12 @@ part 'bucket_list_event.dart';
 part 'bucket_list_state.dart';
 
 class BucketListBloc extends Bloc<BucketListEvent, BucketListState> {
-  BucketListBloc() : super(BucketListInitialState(items: const [])) {
+  BucketListBloc(this._repository) : super(BucketListInitialState()) {
     on<AddBucketListItemEvent>(_addBucketListItem);
+    on<GetBucketListItemsEvent>(_getBucketListItems);
   }
 
-  void _addBucketListItem(
+  final LocalDBBucketListRepository _repository;
     AddBucketListItemEvent event,
     Emitter<BucketListState> emit,
   ) {
