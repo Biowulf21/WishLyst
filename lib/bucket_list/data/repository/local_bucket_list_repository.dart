@@ -26,7 +26,8 @@ class LocalDBBucketListRepository implements BucketListRepository {
   @override
   Future<List<BucketListItem>> getBucketListItems() async {
     final db = await _dbSingleton.database;
-    final result = await db.query('bucket_list_items');
+    final result =
+        await db.query('bucket_list_items', orderBy: 'dateCreated DESC');
     print(result);
 
     final bucketListItems = result.map((item) {
