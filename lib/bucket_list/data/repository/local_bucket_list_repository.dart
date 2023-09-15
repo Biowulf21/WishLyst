@@ -12,9 +12,11 @@ class LocalDBBucketListRepository implements BucketListRepository {
   }
 
   @override
-  Future<void> deleteBucketListItem(int id) {
-    // TODO: implement deleteBucketListItem
-    throw UnimplementedError();
+  Future<void> deleteBucketListItem(int id) async {
+    final db = await _dbSingleton.database;
+    //TODO: Implement softdeletes
+    final result =
+        await db.delete('bucket_list_items', where: 'id = ?', whereArgs: [id]);
   }
 
   @override
