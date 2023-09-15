@@ -24,9 +24,16 @@ class LocalDBBucketListRepository implements BucketListRepository {
   }
 
   @override
-  Stream<List<BucketListItem>> getBucketListItems() {
-    // TODO: implement getBucketListItems
-    throw UnimplementedError();
+  Future<List<BucketListItem>> getBucketListItems() async {
+    final db = await _dbSingleton.database;
+    final result = await db.query('bucket_list_items');
+    print(result);
+
+    final bucketListItems = result.map((item) {
+      return BucketListItem.fromJson(item);
+    }).toList();
+
+    return bucketListItems;
   }
 
   @override
@@ -35,8 +42,7 @@ class LocalDBBucketListRepository implements BucketListRepository {
     try {
       await db.insert('bucket_list_items', bucketListItem.toJson());
     } catch (e) {
-      //handle exception
-      
+      print(e);
     }
   }
 
