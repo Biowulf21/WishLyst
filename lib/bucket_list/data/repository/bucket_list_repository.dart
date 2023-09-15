@@ -5,7 +5,7 @@ abstract class BucketListRepository {
 
   Future<void> saveBucketListItem(BucketListItem bucketListItem);
 
-  Future<void> deleteBucketListItem(int id);
+  Future<int> deleteBucketListItem(int id);
 
   Future<int> deleteCompletedBucketListItems(List<int> ids);
 

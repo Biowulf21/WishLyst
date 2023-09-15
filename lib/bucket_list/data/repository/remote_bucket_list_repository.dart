@@ -8,7 +8,7 @@ class RemoteDBBucketListRepository implements BucketListRepository {
   }
 
   @override
-  Future<void> deleteBucketListItem(int id) {
+  Future<int> deleteBucketListItem(int id) {
     // TODO: implement deleteBucketListItem
     throw UnimplementedError();
   }

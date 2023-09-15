@@ -12,11 +12,12 @@ class LocalDBBucketListRepository implements BucketListRepository {
   }
 
   @override
-  Future<void> deleteBucketListItem(int id) async {
+  Future<int> deleteBucketListItem(int id) async {
     final db = await _dbSingleton.database;
     //TODO: Implement softdeletes
     final result =
         await db.delete('bucket_list_items', where: 'id = ?', whereArgs: [id]);
+    return 1;
   }
 
   @override
@@ -62,9 +63,11 @@ class LocalDBBucketListRepository implements BucketListRepository {
   @override
   Future<void> updateBucketListItem(BucketListItem bucketListItem) async {
     final db = await _dbSingleton.database;
+    bucketListItem.dateUpdated = DateTime.now();
+
     final result = await db.update(
       'bucket_list_items',
-      bucketListItem.values(DateTime.now()),
+      bucketListItem.toJson(),
       where: 'id = ?',
       whereArgs: [bucketListItem.id],
     );
