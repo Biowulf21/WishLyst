@@ -60,8 +60,13 @@ class LocalDBBucketListRepository implements BucketListRepository {
   }
 
   @override
-  Future<void> updateBucketListItem(BucketListItem bucketListItem) {
-    // TODO: implement updateBucketListItem
-    throw UnimplementedError();
+  Future<void> updateBucketListItem(BucketListItem bucketListItem) async {
+    final db = await _dbSingleton.database;
+    final result = await db.update(
+      'bucket_list_items',
+      bucketListItem.values(DateTime.now()),
+      where: 'id = ?',
+      whereArgs: [bucketListItem.id],
+    );
   }
 }
