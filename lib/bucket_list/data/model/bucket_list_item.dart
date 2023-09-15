@@ -1,19 +1,20 @@
 import 'package:equatable/equatable.dart';
 
 class BucketListItem extends Equatable {
-  BucketListItem(
-      {this.id,
-      required this.itemName,
-      required this.description,
-      required this.dateCreated,
-      this.isComplete = false,
-      this.dateDeleted,
-      this.dateCompleted,
-      this.dateUpdated});
+  BucketListItem({
+    this.id,
+    required this.itemName,
+    required this.description,
+    required this.dateCreated,
+    this.isComplete = false,
+    this.dateDeleted,
+    this.dateCompleted,
+    this.dateUpdated,
+  });
 
   factory BucketListItem.fromJson(Map<String, dynamic> json) {
     return BucketListItem(
-      id: json['id'] as int?,
+      id: json['id'] as int,
       itemName: json['itemName'] as String,
       description: json['description'] as String,
       dateCreated: DateTime.parse(json['dateCreated'] as String),
@@ -75,6 +76,7 @@ class BucketListItem extends Equatable {
   }
 
   Map<String, dynamic> values(DateTime dateUpdated) => {
+        'id': id,
         'itemName': itemName,
         'description': description,
         'dateCreated': dateCreated.toIso8601String(),
