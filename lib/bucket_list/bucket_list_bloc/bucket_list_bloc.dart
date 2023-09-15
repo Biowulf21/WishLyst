@@ -22,11 +22,18 @@ class BucketListBloc extends Bloc<BucketListEvent, BucketListState> {
     final bucketListItems = await _repository.getBucketListItems();
     emit(BucketListUpdatedState(items: bucketListItems));
   }
+
+  Future<void> _addBucketListItem(
     AddBucketListItemEvent event,
     Emitter<BucketListState> emit,
-  ) {
+  ) async {
+    await _repository.saveBucketListItem(event.bucketListItem);
+    final result = await _repository.getBucketListItems();
+    print(result);
+
     final updatedItems = List<BucketListItem>.from(state.items)
       ..add(event.bucketListItem);
+
     emit(BucketListUpdatedState(items: updatedItems));
   }
 }
