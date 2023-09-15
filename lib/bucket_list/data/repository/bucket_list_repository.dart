@@ -1,7 +1,7 @@
 import 'package:wishlyst/bucket_list/data/model/bucket_list_item.dart';
 
 abstract class BucketListRepository {
-  Stream<List<BucketListItem>> getBucketListItems();
+  Future<List<BucketListItem>> getBucketListItems();
 
   Future<void> saveBucketListItem(BucketListItem bucketListItem);
 

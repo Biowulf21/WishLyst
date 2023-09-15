@@ -20,7 +20,7 @@ class RemoteDBBucketListRepository implements BucketListRepository {
   }
 
   @override
-  Stream<List<BucketListItem>> getBucketListItems() {
+  Future<List<BucketListItem>> getBucketListItems() {
     // TODO: implement getBucketListItems
     throw UnimplementedError();
   }
