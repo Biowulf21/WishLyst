@@ -1,7 +1,9 @@
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
+import 'package:flutter_bloc/flutter_bloc.dart';
 import 'package:wishlyst/bucket_list/data/model/bucket_list_item.dart';
+import 'package:wishlyst/bucket_list/data/repository/local_bucket_list_repository.dart';
 
 part 'bucket_list_event.dart';
 part 'bucket_list_state.dart';
