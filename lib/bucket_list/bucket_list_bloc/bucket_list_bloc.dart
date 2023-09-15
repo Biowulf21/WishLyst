@@ -13,6 +13,15 @@ class BucketListBloc extends Bloc<BucketListEvent, BucketListState> {
   }
 
   final LocalDBBucketListRepository _repository;
+
+  Future<void> _getBucketListItems(
+    GetBucketListItemsEvent event,
+    Emitter<BucketListState> emit,
+  ) async {
+    emit(BucketListLoadingState());
+    final bucketListItems = await _repository.getBucketListItems();
+    emit(BucketListUpdatedState(items: bucketListItems));
+  }
     AddBucketListItemEvent event,
     Emitter<BucketListState> emit,
   ) {
