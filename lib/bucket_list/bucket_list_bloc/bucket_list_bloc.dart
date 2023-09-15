@@ -1,4 +1,5 @@
 import 'dart:async';
+
 import 'package:bloc/bloc.dart';
 import 'package:equatable/equatable.dart';
 import 'package:flutter/material.dart';
@@ -14,6 +15,7 @@ class BucketListBloc extends Bloc<BucketListEvent, BucketListState> {
     on<AddBucketListItemEvent>(_addBucketListItem);
     on<GetBucketListItemsEvent>(_getBucketListItems);
     on<DeleteBucketListItemEvent>(_deleteBucketListItem);
+    on<SetCompletedBucketListItemEvent>(_setCompletedBucketListItem);
   }
 
   final LocalDBBucketListRepository _repository;
@@ -50,4 +52,9 @@ class BucketListBloc extends Bloc<BucketListEvent, BucketListState> {
     emit(BucketListUpdatedState(items: updatedItems));
   }
 
+  Future<void> _setCompletedBucketListItem(
+      SetCompletedBucketListItemEvent event,
+      Emitter<BucketListState> emit) async {
+    await _repository.setCompletedBucketListItem(event.id);
+  }
 }
