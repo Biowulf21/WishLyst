@@ -50,11 +50,13 @@ class BucketListItemWidget extends StatelessWidget {
           ),
           SlidableAction(
             onPressed: (BuildContext context) =>
-                _markBucketListItemComplete(context, true),
-            backgroundColor: const Color(0xFF21B7CA),
+                _markBucketListItemComplete(context, !item.isComplete!),
+            backgroundColor: item.isComplete!
+                ? Theme.of(context).primaryColor
+                : const Color(0xFF21B7CA),
             foregroundColor: Colors.white,
             icon: Icons.check,
-            label: 'Complete',
+            label: item.isComplete! ? 'Mark incomplete' : 'Mark complete',
           ),
         ],
       ),
